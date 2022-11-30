@@ -191,6 +191,7 @@ class Transaction {
     toffset = 0;
     var input = ins[inIndex];
     writeUInt16(version);
+    writeUInt32(locktime);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
@@ -199,7 +200,6 @@ class Transaction {
     writeUInt64(value);
     writeUInt32(input.sequence);
     writeSlice(hashOutputs);
-    writeUInt32(locktime);
     writeUInt32(hashType);
 
     return bcrypto.hash256(tbuffer);
