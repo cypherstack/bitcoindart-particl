@@ -50,10 +50,10 @@ class ECPair {
       nw = network;
       if (nw.wif != version) throw ArgumentError('Invalid network version');
     } else {
-      if (version == bitcoin.wif) {
-        nw = bitcoin;
-      } else if (version == testnet.wif) {
-        nw = testnet;
+      if (version == particl.wif) {
+        nw = particl;
+      } else if (version == particltestnet.wif) {
+        nw = particltestnet;
       } else {
         throw ArgumentError('Unknown network version');
       }
