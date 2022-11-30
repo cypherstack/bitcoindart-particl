@@ -47,3 +47,11 @@ final testnet = NetworkType(
     pubKeyHash: 0x6f,
     scriptHash: 0xc4,
     wif: 0xef);
+
+final particl = NetworkType(
+    messagePrefix: '\x18Bitcoin Signed Message:\n',
+    bech32: 'pw',
+    bip32: Bip32Type(public: 0x696e82d1, private: 0x8f1daeb8),
+    pubKeyHash: 0x38,
+    scriptHash: 0x3c,
+    wif: 0x6c);
