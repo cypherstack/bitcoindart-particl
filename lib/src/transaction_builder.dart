@@ -21,7 +21,7 @@ class TransactionBuilder {
   final Map _prevTxSet = {};
 
   TransactionBuilder({NetworkType? network, int? maximumFeeRate}) {
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.maximumFeeRate = maximumFeeRate ?? 2500;
     _inputs = [];
     _tx = Transaction();
