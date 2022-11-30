@@ -489,7 +489,7 @@ PaymentData? buildByType(
 }
 
 Uint8List pubkeyToOutputScript(Uint8List pubkey, [NetworkType? nw]) {
-  var network = nw ?? bitcoin;
+  var network = nw ?? particl;
   var p2pkh = P2PKH(data: PaymentData(pubkey: pubkey), network: network);
   return p2pkh.data.output!;
 }

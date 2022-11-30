@@ -15,7 +15,7 @@ class ECPair {
       {NetworkType? network, bool? compressed}) {
     this._d = _d;
     this._Q = _Q;
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.compressed = compressed ?? true;
   }
   Uint8List get publicKey {
@@ -81,7 +81,7 @@ class ECPair {
   }
   factory ECPair.makeRandom(
       {NetworkType? network, bool? compressed, Function? rng}) {
-    network = network ?? bitcoin;
+    network = network ?? particl;
     final rfunc = rng ?? _randomBytes;
     Uint8List d;
 //    int beginTime = DateTime.now().millisecondsSinceEpoch;
