@@ -1,7 +1,7 @@
-name: bitcoindart
-description: A dart Bitcoin library for Flutter. BIP32, BIP39, P2PKH integration.
-version: 3.0.1
-homepage: https://github.com/keybagio/bitcoindart
+name: particldart
+description: A dart Bitcoin library for Flutter for Particl. BIP32, BIP39.
+version: 1.0.0
+homepage: https://github.com/cypherstack/bitcoindart-particl (see Likho/bitcoindart-particl and sneurlax/bitcoindart-particl)
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
