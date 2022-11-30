@@ -1,4 +1,4 @@
-import 'package:bitcoindart/bitcoindart.dart';
+import 'package:particldart/bitcoindart.dart';
 import 'package:test/test.dart';
 import 'package:bip39/bip39.dart' as bip39;
 
