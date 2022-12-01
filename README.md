@@ -18,7 +18,7 @@ Otherwise, pull requests are appreciated.
 ## Examples
 
 ```dart
-import 'package:particldart/bitcoindart.dart';
+import 'package:particldart/particldart.dart';
 import 'package:bip39/bip39.dart' as bip39;
 
 main() {
