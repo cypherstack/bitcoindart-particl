@@ -39,6 +39,8 @@ class Transaction {
   Uint8List? payload;
   Transaction();
 
+  print("SCRIPTSIG IS $scripSig");
+
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
     ins.add(Input(
@@ -46,7 +48,7 @@ class Transaction {
         index: index,
         sequence: sequence ?? DEFAULT_SEQUENCE,
         script: EMPTY_SCRIPT,
-        witness: EMPTY_WITNESS));
+        witness: scriptSig ?? EMPTY_WITNESS));
     return ins.length - 1;
   }
 
@@ -191,6 +193,7 @@ class Transaction {
     toffset = 0;
     var input = ins[inIndex];
     writeUInt16(version);
+    writeUInt32(locktime);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
@@ -199,7 +202,6 @@ class Transaction {
     writeUInt64(value);
     writeUInt32(input.sequence);
     writeSlice(hashOutputs);
-    writeUInt32(locktime);
     writeUInt32(hashType);
 
     return bcrypto.hash256(tbuffer);
