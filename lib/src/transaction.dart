@@ -39,10 +39,10 @@ class Transaction {
   Uint8List? payload;
   Transaction();
 
-  print("SCRIPTSIG IS $scripSig");
-
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
+    print("SCRIPTSIG IS $scripSig");
+
     ins.add(Input(
         hash: hash,
         index: index,
