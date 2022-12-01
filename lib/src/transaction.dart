@@ -45,7 +45,7 @@ class Transaction {
         hash: hash,
         index: index,
         sequence: sequence ?? DEFAULT_SEQUENCE,
-        script: scriptSig ?? EMPTY_SCRIPT,
+        script: EMPTY_SCRIPT,
         witness: EMPTY_WITNESS));
     return ins.length - 1;
   }
@@ -191,7 +191,6 @@ class Transaction {
     toffset = 0;
     var input = ins[inIndex];
     writeUInt16(version);
-    writeUInt32(locktime);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
@@ -200,6 +199,7 @@ class Transaction {
     writeUInt64(value);
     writeUInt32(input.sequence);
     writeSlice(hashOutputs);
+    writeUInt32(locktime);
     writeUInt32(hashType);
 
     return bcrypto.hash256(tbuffer);
@@ -337,7 +337,7 @@ class Transaction {
   }
 
   Uint8List _toBuffer(
-      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = false]) {
+      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = true]) {
     // _ALLOW_WITNESS is used to separate witness part when calculating tx id
     buffer ??= Uint8List(_byteLength(_ALLOW_WITNESS));
 
@@ -406,20 +406,20 @@ class Transaction {
       writeUInt8(ADVANCED_TRANSACTION_MARKER);
       writeUInt8(ADVANCED_TRANSACTION_FLAG);
     }
-
     writeVarInt(ins.length);
-
+    print("I AM TX IN ");
     ins.forEach((txIn) {
       writeSlice(txIn.hash);
       writeUInt32(txIn.index);
       writeVarSlice(txIn.script);
+      writeVarSlice(txIn.witness);
       writeUInt32(txIn.sequence);
     });
 
     writeVarInt(outs.length);
-    print("OUTS IS $outs");
+    final outputType = 1;
     outs.forEach((txOut) {
-
+      writeVarInt(outputType);
       if (txOut.valueBuffer == null) {
         writeUInt64(txOut.value);
       } else {
@@ -532,8 +532,8 @@ class Transaction {
     tx.version = readInt16();
     tx.locktime = readUInt32();
 
-    final marker = readUInt8();
-    final flag = readUInt8();
+    final marker = ADVANCED_TRANSACTION_MARKER;
+    final flag = ADVANCED_TRANSACTION_FLAG;
 
     var hasWitnesses = false;
     if (marker == ADVANCED_TRANSACTION_MARKER &&
@@ -549,6 +549,7 @@ class Transaction {
           hash: readSlice(32),
           index: readUInt32(),
           script: readVarSlice(),
+          witness: readVector(),
           sequence: readUInt32()));
     }
 
@@ -557,6 +558,7 @@ class Transaction {
       tx.outs.add(Output(value: readUInt64(), script: readVarSlice()));
     }
 
+    print("HAS WITNESS NOW IS $hasWitnesses");
     if (hasWitnesses) {
       for (var i = 0; i < vinLen; ++i) {
         tx.ins[i].witness = readVector();
@@ -638,7 +640,7 @@ class Input {
         this.redeemScriptType,
         this.witnessScriptType,
         this.maxSignatures}) {
-    hasWitness = false; // Default value
+    hasWitness = true; // Default value
     if (hash != null && !isHash256bit(hash!)) {
       throw ArgumentError('Invalid input hash');
     }
@@ -726,6 +728,7 @@ class Input {
       hash: input.hash != null ? Uint8List.fromList(input.hash!) : null,
       index: input.index,
       script: input.script != null ? Uint8List.fromList(input.script!) : null,
+      witness: input.witness,
       sequence: input.sequence,
       value: input.value,
       prevOutScript: input.prevOutScript != null
