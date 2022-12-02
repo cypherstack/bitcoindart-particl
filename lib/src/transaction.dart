@@ -47,8 +47,8 @@ class Transaction {
         hash: hash,
         index: index,
         sequence: sequence ?? DEFAULT_SEQUENCE,
-        script: EMPTY_SCRIPT,
-        witness: scriptSig ?? EMPTY_WITNESS));
+        script: scriptSig ?? EMPTY_SCRIPT,
+        witness: EMPTY_WITNESS));
     return ins.length - 1;
   }
 
