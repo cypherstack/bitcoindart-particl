@@ -5,6 +5,7 @@ import 'package:bs58check/bs58check.dart' as bs58check;
 import 'package:meta/meta.dart';
 
 import '../crypto.dart';
+import 'package:bitcoindart/src/models/networks.dart';
 import '../models/networks.dart';
 import '../payments/index.dart' show PaymentData;
 import '../utils/constants/op.dart';

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../src/crypto.dart';
+import 'package:bitcoindart/src/models/networks.dart';
 import '../../src/models/networks.dart';
 import 'varuint.dart';
 

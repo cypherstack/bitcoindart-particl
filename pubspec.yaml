@@ -17,6 +17,10 @@ dependencies:
   hex: ^0.2.0
   bs58check: ^1.0.1
   meta: ^1.2.4
+  bitcoindart:
+    git:
+      url: https://github.com/cypherstack/bitcoindart.git
+      ref: 65eb920719c8f7895c5402a07497647e7fc4b346
 
 dev_dependencies:
   test: ^1.15.4

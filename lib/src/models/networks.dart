@@ -1,36 +1,4 @@
-class NetworkType {
-  String messagePrefix;
-  String? bech32;
-  Bip32Type bip32;
-  int pubKeyHash;
-  int scriptHash;
-  int wif;
-
-  NetworkType(
-      {required this.messagePrefix,
-      this.bech32,
-      required this.bip32,
-      required this.pubKeyHash,
-      required this.scriptHash,
-      required this.wif});
-
-  @override
-  String toString() {
-    return 'NetworkType{messagePrefix: $messagePrefix, bech32: $bech32, bip32: ${bip32.toString()}, pubKeyHash: $pubKeyHash, scriptHash: $scriptHash, wif: $wif}';
-  }
-}
-
-class Bip32Type {
-  int public;
-  int private;
-
-  Bip32Type({required this.public, required this.private});
-
-  @override
-  String toString() {
-    return 'Bip32Type{public: $public, private: $private}';
-  }
-}
+import 'package:bitcoindart/src/models/networks.dart';
 
 final particl = NetworkType(
     messagePrefix: '\x18Bitcoin Signed Message:\n',

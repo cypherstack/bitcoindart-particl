@@ -6,6 +6,7 @@ import 'package:particldart/src/utils/magic_hash.dart';
 import 'package:hex/hex.dart';
 
 import 'ecpair.dart';
+import 'package:bitcoindart/src/models/networks.dart';
 import 'models/networks.dart';
 import 'payments/index.dart' show PaymentData;
 import 'payments/p2pkh.dart';

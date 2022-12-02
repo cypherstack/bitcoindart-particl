@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:bip32/src/utils/ecurve.dart' as ecc;
 import 'package:bip32/src/utils/wif.dart' as wif;
 
+import 'package:bitcoindart/src/models/networks.dart';
 import 'models/networks.dart';
 
 class ECPair {

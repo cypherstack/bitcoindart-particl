@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:bech32/bech32.dart';
 import 'package:bs58check/bs58check.dart' as bs58check;
 
+import 'package:bitcoindart/src/models/networks.dart';
 import 'models/networks.dart';
 import 'payments/index.dart' show PaymentData;
 import 'payments/p2pkh.dart';
