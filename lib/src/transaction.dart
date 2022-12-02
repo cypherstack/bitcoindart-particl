@@ -185,10 +185,10 @@ class Transaction {
 
     writeUInt16(version);
     writeUInt32(locktime);
+    writeUInt8(input.index);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
-    writeUInt32(input.index);
     writeVarSlice(prevOutScript);
     writeUInt64(value);
     writeUInt32(input.sequence);
