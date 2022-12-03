@@ -537,8 +537,6 @@ class Transaction {
     tx.version = readInt16();
     tx.locktime = readUInt32();
 
-    readUInt8(); // inputs
-
     final marker = ADVANCED_TRANSACTION_MARKER;
     final flag = ADVANCED_TRANSACTION_FLAG;
 
