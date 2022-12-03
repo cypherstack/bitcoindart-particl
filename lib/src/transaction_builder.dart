@@ -22,7 +22,7 @@ class TransactionBuilder {
   final Map _prevTxSet = {};
 
   TransactionBuilder({NetworkType? network, int? maximumFeeRate}) {
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.maximumFeeRate = maximumFeeRate ?? 2500;
     _inputs = [];
     _tx = Transaction();
@@ -493,7 +493,7 @@ PaymentData? buildByType(
 }
 
 Uint8List pubkeyToOutputScript(Uint8List pubkey, [NetworkType? nw]) {
-  var network = nw ?? bitcoin;
+  var network = nw ?? particl;
   var p2pkh = P2PKH(data: PaymentData(pubkey: pubkey), network: network);
   return p2pkh.data.output!;
 }
