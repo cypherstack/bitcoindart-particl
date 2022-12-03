@@ -102,10 +102,20 @@ class Transaction {
       toffset += 4;
     }
 
+    void writeUInt16(i) {
+      bytes.setUint16(toffset, i, Endian.little);
+      toffset += 2;
+    }
+
     // ignore: unused_element
     void writeInt32(i) {
       bytes.setInt32(toffset, i, Endian.little);
       toffset += 4;
+    }
+
+    void writeInt16(i) {
+      bytes.setInt16(toffset, i, Endian.little);
+      toffset += 2;
     }
 
     void writeUInt64(i) {
@@ -473,6 +483,12 @@ class Transaction {
       return i;
     }
 
+    int readInt16() {
+      final i = bytes.getInt16(offset, Endian.little);
+      offset += 2;
+      return i;
+    }
+
     int readUInt64() {
       final i = bytes.getUint64(offset, Endian.little);
       offset += 8;
@@ -504,10 +520,13 @@ class Transaction {
     }
 
     final tx = Transaction();
-    tx.version = readInt32();
+    tx.version = readInt16();
+    tx.locktime = readUInt32();
 
-    final marker = readUInt8();
-    final flag = readUInt8();
+    readUInt8(); // inputs
+
+    final marker = ADVANCED_TRANSACTION_MARKER;
+    final flag = ADVANCED_TRANSACTION_FLAG;
 
     var hasWitnesses = false;
     if (marker == ADVANCED_TRANSACTION_MARKER &&
@@ -536,8 +555,6 @@ class Transaction {
         tx.ins[i].witness = readVector();
       }
     }
-
-    tx.locktime = readUInt32();
 
     try {
       tx.payload = readVarSlice();
