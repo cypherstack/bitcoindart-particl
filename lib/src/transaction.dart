@@ -41,7 +41,7 @@ class Transaction {
 
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
-    print("SCRIPTSIG IS $scripSig");
+    print("SCRIPTSIG IS $scriptSig");
 
     ins.add(Input(
         hash: hash,
