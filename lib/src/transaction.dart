@@ -340,7 +340,7 @@ class Transaction {
   }
 
   Uint8List _toBuffer(
-      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = false]) {
+      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = true]) {
     // _ALLOW_WITNESS is used to separate witness part when calculating tx id
     buffer ??= Uint8List(_byteLength(_ALLOW_WITNESS));
 
@@ -405,6 +405,10 @@ class Transaction {
     writeInt16(version);
     writeUInt32(locktime);
 
+    // if (_ALLOW_WITNESS && hasWitnesses()) {
+    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
+    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
+    // }
     writeVarInt(ins.length);
     ins.forEach((txIn) {
       writeSlice(txIn.hash);
@@ -631,7 +635,7 @@ class Input {
         this.redeemScriptType,
         this.witnessScriptType,
         this.maxSignatures}) {
-    hasWitness = false; // Default value
+    hasWitness = true; // Default value
     if (hash != null && !isHash256bit(hash!)) {
       throw ArgumentError('Invalid input hash');
     }
@@ -719,6 +723,7 @@ class Input {
       hash: input.hash != null ? Uint8List.fromList(input.hash!) : null,
       index: input.index,
       script: input.script != null ? Uint8List.fromList(input.script!) : null,
+      witness: input.witness,
       sequence: input.sequence,
       value: input.value,
       prevOutScript: input.prevOutScript != null
