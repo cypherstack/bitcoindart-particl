@@ -409,7 +409,9 @@ class Transaction {
     //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
     //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
     // }
+    print("INS IS ${ins}");
     writeVarInt(ins.length);
+    print("I AM TX IN ");
     ins.forEach((txIn) {
       writeSlice(txIn.hash);
       writeUInt32(txIn.index);
@@ -429,12 +431,18 @@ class Transaction {
       writeVarSlice(txOut.script);
     });
 
+    print("ALLOW WITNESS IS $_ALLOW_WITNESS");
+    print("HAS WITNESS IS ${hasWitnesses().toString()}");
+
     if (_ALLOW_WITNESS && hasWitnesses()) {
+      print("HAS WITNESS");
       ins.forEach((txInt) {
+        print("WITNESS IS ${txInt.witness}");
         writeVector(txInt.witness);
       });
     }
 
+    print("PAYLOAD IS $payload");
     if (payload != null) {
       writeVarSlice(payload!);
     }
@@ -442,6 +450,8 @@ class Transaction {
 
     // avoid slicing unless necessary
     if (initialOffset != null) return buffer.sublist(initialOffset, offset);
+
+    print("BUFFER IS ${buffer}");
 
     return buffer;
   }
