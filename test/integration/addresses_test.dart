@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:bitcoindart/src/ecpair.dart' show ECPair;
-import 'package:bitcoindart/src/models/networks.dart' as networks;
-import 'package:bitcoindart/src/payments/index.dart' show PaymentData;
-import 'package:bitcoindart/src/payments/p2pkh.dart' show P2PKH;
-import 'package:bitcoindart/src/payments/p2sh.dart' show P2SH;
-import 'package:bitcoindart/src/payments/p2wpkh.dart' show P2WPKH;
+import 'package:particldart/src/ecpair.dart' show ECPair;
+import 'package:particldart/src/models/networks.dart' as networks;
+import 'package:particldart/src/payments/index.dart' show PaymentData;
+import 'package:particldart/src/payments/p2pkh.dart' show P2PKH;
+import 'package:particldart/src/payments/p2sh.dart' show P2SH;
+import 'package:particldart/src/payments/p2wpkh.dart' show P2WPKH;
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:test/test.dart';
 

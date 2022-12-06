@@ -5,6 +5,7 @@ import 'package:bip32/src/utils/ecurve.dart' show isPoint;
 import 'package:meta/meta.dart';
 
 import '../crypto.dart';
+import 'package:bitcoindart/src/models/networks.dart';
 import '../models/networks.dart';
 import '../payments/index.dart' show PaymentData;
 import '../utils/constants/op.dart';
@@ -16,7 +17,7 @@ class P2WPKH {
   late PaymentData data;
   late NetworkType network;
   P2WPKH({@required data, network, String overridePrefix = ''}) {
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.data = data;
     _init(overridePrefix);
   }

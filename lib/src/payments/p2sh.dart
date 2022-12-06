@@ -5,6 +5,7 @@ import 'package:bs58check/bs58check.dart' as bs58check;
 import 'package:meta/meta.dart';
 
 import '../crypto.dart';
+import 'package:bitcoindart/src/models/networks.dart';
 import '../models/networks.dart';
 import '../payments/index.dart' show PaymentData;
 import '../utils/constants/op.dart';
@@ -14,7 +15,7 @@ class P2SH {
   late PaymentData data;
   late NetworkType network;
   P2SH({@required data, network}) {
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.data = data;
     _init();
   }

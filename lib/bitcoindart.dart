@@ -1,7 +1,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library bitcoindart;
+library particldart;
 
 export 'src/address.dart';
 export 'src/bitcoindart_base.dart';
