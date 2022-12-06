@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:particldart/src/transaction.dart';
-import 'package:particldart/src/utils/script.dart' as bscript;
+import 'package:bitcoindart/src/transaction.dart';
+import 'package:bitcoindart/src/utils/script.dart' as bscript;
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 

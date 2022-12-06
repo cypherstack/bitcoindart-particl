@@ -1,6 +1,5 @@
 import 'package:bip32/src/utils/ecurve.dart' show isPoint;
 
-import 'package:bitcoindart/src/models/networks.dart';
 import '../models/networks.dart';
 import '../payments/index.dart' show PaymentData;
 import '../utils/constants/op.dart';
@@ -9,7 +8,7 @@ class P2PK {
   late PaymentData data;
   late NetworkType network;
   P2PK({required data, network}) {
-    this.network = network ?? particl;
+    this.network = network ?? bitcoin;
     this.data = data;
     _init();
   }

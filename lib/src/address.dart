@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:bech32/bech32.dart';
 import 'package:bs58check/bs58check.dart' as bs58check;
 
-import 'package:bitcoindart/src/models/networks.dart';
 import 'models/networks.dart';
 import 'payments/index.dart' show PaymentData;
 import 'payments/p2pkh.dart';
@@ -23,7 +22,7 @@ class Address {
 
   static Uint8List addressToOutputScript(String address,
       [NetworkType? nw, String overridePrefix = '']) {
-    var network = nw ?? particl;
+    var network = nw ?? bitcoin;
     var decodeBase58;
     var decodeBech32;
     try {

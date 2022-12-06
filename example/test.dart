@@ -8,12 +8,12 @@ import 'package:pointycastle/digests/sha256.dart';
 // 导入 RIPEMD160Digest
 import 'package:pointycastle/digests/ripemd160.dart';
 
-import 'package:particldart/src/models/networks.dart' as networks;
-import 'package:particldart/src/payments/p2pkh.dart' show P2PKH;
-import 'package:particldart/src/payments/index.dart' show PaymentData;
+import 'package:bitcoindart/src/models/networks.dart' as networks;
+import 'package:bitcoindart/src/payments/p2pkh.dart' show P2PKH;
+import 'package:bitcoindart/src/payments/index.dart' show PaymentData;
 import 'package:bs58check/bs58check.dart' as bs58check;
-import 'package:particldart/src/ecpair.dart' show ECPair;
-import 'package:particldart/src/transaction_builder.dart';
+import 'package:bitcoindart/src/ecpair.dart' show ECPair;
+import 'package:bitcoindart/src/transaction_builder.dart';
 
 List<int> rng(int number) {
   return utf8.encode('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');

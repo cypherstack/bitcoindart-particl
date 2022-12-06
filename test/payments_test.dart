@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:particldart/src/models/networks.dart' as networks;
-import 'package:particldart/src/payments/index.dart' show PaymentData;
-import 'package:particldart/src/payments/p2pkh.dart';
-import 'package:particldart/src/payments/p2sh.dart';
-import 'package:particldart/src/payments/p2wpkh.dart';
-import 'package:particldart/src/utils/script.dart' as bscript;
+import 'package:bitcoindart/src/models/networks.dart' as networks;
+import 'package:bitcoindart/src/payments/index.dart' show PaymentData;
+import 'package:bitcoindart/src/payments/p2pkh.dart';
+import 'package:bitcoindart/src/payments/p2sh.dart';
+import 'package:bitcoindart/src/payments/p2wpkh.dart';
+import 'package:bitcoindart/src/utils/script.dart' as bscript;
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 

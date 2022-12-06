@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
-import 'package:particldart/src/address.dart' show Address;
-import 'package:particldart/src/models/networks.dart' as networks;
+import 'package:bitcoindart/src/address.dart' show Address;
+import 'package:bitcoindart/src/models/networks.dart' as networks;
 
 void main() {
   group('Address', () {

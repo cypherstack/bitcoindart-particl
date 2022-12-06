@@ -2,9 +2,9 @@ import 'dart:typed_data';
 
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:particldart/src/models/networks.dart';
-import 'package:particldart/src/payments/index.dart' show PaymentData;
-import 'package:particldart/src/payments/p2pkh.dart';
+import 'package:bitcoindart/src/models/networks.dart';
+import 'package:bitcoindart/src/payments/index.dart' show PaymentData;
+import 'package:bitcoindart/src/payments/p2pkh.dart';
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 

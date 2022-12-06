@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:particldart/src/ecpair.dart' show ECPair;
-import 'package:particldart/src/models/networks.dart' as networks;
+import 'package:bitcoindart/src/ecpair.dart' show ECPair;
+import 'package:bitcoindart/src/models/networks.dart' as networks;
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 

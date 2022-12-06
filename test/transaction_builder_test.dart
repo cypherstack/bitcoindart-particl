@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:particldart/src/address.dart';
-import 'package:particldart/src/ecpair.dart';
-import 'package:particldart/src/models/networks.dart';
-import 'package:particldart/src/payments/index.dart' show PaymentData;
-import 'package:particldart/src/payments/p2pkh.dart';
-import 'package:particldart/src/transaction.dart';
-import 'package:particldart/src/transaction_builder.dart';
-import 'package:particldart/src/utils/script.dart' as bscript;
+import 'package:bitcoindart/src/address.dart';
+import 'package:bitcoindart/src/ecpair.dart';
+import 'package:bitcoindart/src/models/networks.dart';
+import 'package:bitcoindart/src/payments/index.dart' show PaymentData;
+import 'package:bitcoindart/src/payments/p2pkh.dart';
+import 'package:bitcoindart/src/transaction.dart';
+import 'package:bitcoindart/src/transaction_builder.dart';
+import 'package:bitcoindart/src/utils/script.dart' as bscript;
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 
