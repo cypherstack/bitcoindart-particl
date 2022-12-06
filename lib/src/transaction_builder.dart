@@ -21,7 +21,7 @@ class TransactionBuilder {
   final Map _prevTxSet = {};
 
   TransactionBuilder({NetworkType? network, int? maximumFeeRate}) {
-    this.network = network ?? bitcoin;
+    this.network = network ?? particl;
     this.maximumFeeRate = maximumFeeRate ?? 2500;
     _inputs = [];
     _tx = Transaction();
@@ -43,6 +43,7 @@ class TransactionBuilder {
     });
 
     transaction.ins.forEach((txIn) {
+      print("ADDING TXIN ${txIn}");
       txb._addInputUnsafe(
         txIn.hash!,
         txIn.index!,
@@ -105,6 +106,7 @@ class TransactionBuilder {
 
   int addInput(dynamic txHash, int vout,
       [int? sequence, Uint8List? prevOutScript, String overridePrefix = '']) {
+    print("PREVOUTSCRIPT IS $prevOutScript");
     if (!_canModifyInputs()) {
       throw ArgumentError('No, this would invalidate signatures');
     }
@@ -122,6 +124,7 @@ class TransactionBuilder {
     } else {
       throw ArgumentError('txHash invalid');
     }
+    print("PREVOUTSCRIPT IS NOW $prevOutScript");
     return _addInputUnsafe(
         hash,
         vout,
@@ -279,6 +282,7 @@ class TransactionBuilder {
   }
 
   Transaction _build(bool allowIncomplete, [String overridePrefix = '']) {
+    print("_TX IS ${_tx}");
     if (!allowIncomplete) {
       if (_tx.ins.isEmpty) throw ArgumentError('Transaction has no inputs');
       if (_tx.outs.isEmpty) {
@@ -307,6 +311,7 @@ class TransactionBuilder {
           continue;
         }
 
+        print("INPUT SCRIPT IS ${result.input!}");
         tx.setInputScript(i, result.input!);
         tx.setWitness(i, result.witness);
       } else if (!allowIncomplete) {
@@ -415,6 +420,7 @@ class TransactionBuilder {
       throw ArgumentError('Duplicate TxOut: ' + prevTxOut);
     }
 
+    print("OPTIONS IS ${options}");
     // if an input value was given, retain it
     if (options.script != null) {
       input = Input.expandInput(options.script!,
@@ -422,6 +428,7 @@ class TransactionBuilder {
     } else {
       input = Input();
     }
+    print("OPTIONS.SCRIPT IS NOW ${options.script}");
 
     // derive what we can from the previous transactions output script
     if (options.value != null) input.value = options.value;
@@ -437,6 +444,9 @@ class TransactionBuilder {
       input.prevOutScript = options.prevOutScript;
       input.prevOutType = classifyOutput(options.prevOutScript!);
     }
+    print("HASH IS ${hash}");
+    print("VOUT IS ${vout}");
+    print("OPTIONS.SEQUENCE IS ${options.sequence}");
     var vin = _tx.addInput(hash, vout, options.sequence, options.script);
     _inputs.add(input);
     _prevTxSet[prevTxOut] = true;
@@ -492,7 +502,7 @@ PaymentData? buildByType(
 }
 
 Uint8List pubkeyToOutputScript(Uint8List pubkey, [NetworkType? nw]) {
-  var network = nw ?? bitcoin;
+  var network = nw ?? particl;
   var p2pkh = P2PKH(data: PaymentData(pubkey: pubkey), network: network);
   return p2pkh.data.output!;
 }

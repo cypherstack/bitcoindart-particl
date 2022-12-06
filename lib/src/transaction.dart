@@ -41,6 +41,7 @@ class Transaction {
 
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
+
     ins.add(Input(
         hash: hash,
         index: index,
@@ -100,10 +101,20 @@ class Transaction {
       toffset += 4;
     }
 
+    void writeUInt16(i) {
+      bytes.setUint16(toffset, i, Endian.little);
+      toffset += 2;
+    }
+
     // ignore: unused_element
     void writeInt32(i) {
       bytes.setInt32(toffset, i, Endian.little);
       toffset += 4;
+    }
+
+    void writeInt16(i) {
+      bytes.setInt16(toffset, i, Endian.little);
+      toffset += 2;
     }
 
     void writeUInt64(i) {
@@ -180,11 +191,13 @@ class Transaction {
     bytes = tbuffer.buffer.asByteData();
     toffset = 0;
     var input = ins[inIndex];
-    writeUInt32(version);
+
+    writeUInt16(version);
+    writeUInt32(locktime);
+    writeUInt8(input.index);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
-    writeUInt32(input.index);
     writeVarSlice(prevOutScript);
     writeUInt64(value);
     writeUInt32(input.sequence);
@@ -327,7 +340,7 @@ class Transaction {
   }
 
   Uint8List _toBuffer(
-      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = false]) {
+      [Uint8List? buffer, initialOffset, bool _ALLOW_WITNESS = true]) {
     // _ALLOW_WITNESS is used to separate witness part when calculating tx id
     buffer ??= Uint8List(_byteLength(_ALLOW_WITNESS));
 
@@ -388,41 +401,7 @@ class Transaction {
       });
     }
 
-    // Start writeBuffer
-    // writeInt32(version);
-    //
-    // if (_ALLOW_WITNESS && hasWitnesses()) {
-    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
-    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
-    // }
-    //
-    // writeVarInt(ins.length);
-    //
-    // ins.forEach((txIn) {
-    //   writeSlice(txIn.hash);
-    //   writeUInt32(txIn.index);
-    //   writeVarSlice(txIn.script);
-    //   writeUInt32(txIn.sequence);
-    // });
-    //
-    // writeVarInt(outs.length);
-    //
-    // outs.forEach((txOut) {
-    //   if (txOut.valueBuffer == null) {
-    //     writeUInt64(txOut.value);
-    //   } else {
-    //     writeSlice(txOut.valueBuffer);
-    //   }
-    //   writeVarSlice(txOut.script);
-    // });
-
     writeInt32(version);
-
-    // if (_ALLOW_WITNESS && hasWitnesses()) {
-    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
-    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
-    // }
-
     writeUInt16(locktime);
 
     writeVarInt(ins.length);
@@ -451,8 +430,6 @@ class Transaction {
       });
     }
 
-    // writeUInt32(locktime);
-
     if (payload != null) {
       writeVarSlice(payload!);
     }
@@ -460,6 +437,7 @@ class Transaction {
 
     // avoid slicing unless necessary
     if (initialOffset != null) return buffer.sublist(initialOffset, offset);
+
 
     return buffer;
   }
@@ -505,6 +483,12 @@ class Transaction {
       return i;
     }
 
+    int readInt16() {
+      final i = bytes.getInt16(offset, Endian.little);
+      offset += 2;
+      return i;
+    }
+
     int readUInt64() {
       final i = bytes.getUint64(offset, Endian.little);
       offset += 8;
@@ -536,10 +520,11 @@ class Transaction {
     }
 
     final tx = Transaction();
-    tx.version = readInt32();
+    tx.version = readInt16();
+    tx.locktime = readUInt32();
 
-    final marker = readUInt8();
-    final flag = readUInt8();
+    final marker = ADVANCED_TRANSACTION_MARKER;
+    final flag = ADVANCED_TRANSACTION_FLAG;
 
     var hasWitnesses = false;
     if (marker == ADVANCED_TRANSACTION_MARKER &&
@@ -568,8 +553,6 @@ class Transaction {
         tx.ins[i].witness = readVector();
       }
     }
-
-    tx.locktime = readUInt32();
 
     try {
       tx.payload = readVarSlice();
@@ -646,7 +629,7 @@ class Input {
         this.redeemScriptType,
         this.witnessScriptType,
         this.maxSignatures}) {
-    hasWitness = false; // Default value
+    hasWitness = true; // Default value
     if (hash != null && !isHash256bit(hash!)) {
       throw ArgumentError('Invalid input hash');
     }
@@ -734,6 +717,7 @@ class Input {
       hash: input.hash != null ? Uint8List.fromList(input.hash!) : null,
       index: input.index,
       script: input.script != null ? Uint8List.fromList(input.script!) : null,
+      witness: input.witness,
       sequence: input.sequence,
       value: input.value,
       prevOutScript: input.prevOutScript != null
