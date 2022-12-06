@@ -41,14 +41,12 @@ class Transaction {
 
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
-    print("SCRIPTSIG IS $scripSig");
-
     ins.add(Input(
         hash: hash,
         index: index,
         sequence: sequence ?? DEFAULT_SEQUENCE,
-        script: EMPTY_SCRIPT,
-        witness: scriptSig ?? EMPTY_WITNESS));
+        script: scriptSig ?? EMPTY_SCRIPT,
+        witness: EMPTY_WITNESS));
     return ins.length - 1;
   }
 
@@ -68,7 +66,7 @@ class Transaction {
   }
 
   void setInputScript(int index, Uint8List scriptSig) {
-    ins[index].script = EMPTY_SCRIPT;
+    ins[index].script = scriptSig;
   }
 
   void setWitness(int index, List<Uint8List>? witness) {
@@ -182,9 +180,7 @@ class Transaction {
     bytes = tbuffer.buffer.asByteData();
     toffset = 0;
     var input = ins[inIndex];
-
-    writeUInt16(version);
-    writeUInt32(locktime);
+    writeUInt32(version);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
@@ -193,6 +189,7 @@ class Transaction {
     writeUInt64(value);
     writeUInt32(input.sequence);
     writeSlice(hashOutputs);
+    writeUInt32(locktime);
     writeUInt32(hashType);
 
     return bcrypto.hash256(tbuffer);
@@ -392,8 +389,41 @@ class Transaction {
     }
 
     // Start writeBuffer
-    writeInt16(version);
-    writeUInt32(locktime);
+    // writeInt32(version);
+    //
+    // if (_ALLOW_WITNESS && hasWitnesses()) {
+    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
+    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
+    // }
+    //
+    // writeVarInt(ins.length);
+    //
+    // ins.forEach((txIn) {
+    //   writeSlice(txIn.hash);
+    //   writeUInt32(txIn.index);
+    //   writeVarSlice(txIn.script);
+    //   writeUInt32(txIn.sequence);
+    // });
+    //
+    // writeVarInt(outs.length);
+    //
+    // outs.forEach((txOut) {
+    //   if (txOut.valueBuffer == null) {
+    //     writeUInt64(txOut.value);
+    //   } else {
+    //     writeSlice(txOut.valueBuffer);
+    //   }
+    //   writeVarSlice(txOut.script);
+    // });
+
+    writeInt32(version);
+
+    // if (_ALLOW_WITNESS && hasWitnesses()) {
+    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
+    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
+    // }
+
+    writeUInt16(locktime);
 
     writeVarInt(ins.length);
     ins.forEach((txIn) {
@@ -420,6 +450,8 @@ class Transaction {
         writeVector(txInt.witness);
       });
     }
+
+    // writeUInt32(locktime);
 
     if (payload != null) {
       writeVarSlice(payload!);

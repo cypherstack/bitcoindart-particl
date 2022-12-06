@@ -5,7 +5,6 @@ import 'package:hex/hex.dart';
 import 'address.dart';
 import 'classify.dart';
 import 'ecpair.dart';
-import 'package:bitcoindart/src/models/networks.dart';
 import 'models/networks.dart';
 import 'payments/index.dart' show PaymentData;
 import 'payments/p2pkh.dart';
@@ -309,7 +308,7 @@ class TransactionBuilder {
         }
 
         tx.setInputScript(i, result.input!);
-        tx.setWitness(i, [result.signature as Uint8List, result.pubkey as Uint8List]);
+        tx.setWitness(i, result.witness);
       } else if (!allowIncomplete) {
         throw ArgumentError('Transaction is not complete');
       }
