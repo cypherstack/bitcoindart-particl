@@ -41,6 +41,7 @@ class Transaction {
 
   int addInput(Uint8List hash, int index,
       [int? sequence, Uint8List? scriptSig]) {
+    print("SCRIPTSIG IS $scriptSig");
 
     ins.add(Input(
         hash: hash,
@@ -192,17 +193,14 @@ class Transaction {
     toffset = 0;
     var input = ins[inIndex];
 
-    writeUInt16(version);
-    writeUInt32(locktime);
-    writeUInt8(input.index);
     writeSlice(hashPrevouts);
     writeSlice(hashSequence);
     writeSlice(input.hash!);
+    writeUInt32(input.index);
     writeVarSlice(prevOutScript);
     writeUInt64(value);
     writeUInt32(input.sequence);
     writeSlice(hashOutputs);
-    writeUInt32(locktime);
     writeUInt32(hashType);
 
     return bcrypto.hash256(tbuffer);
@@ -309,7 +307,7 @@ class Transaction {
   }
 
   Uint8List toBuffer([Uint8List? buffer, int? initialOffset]) {
-    return _toBuffer(buffer, initialOffset, true);
+    return _toBuffer(buffer, initialOffset, false);
   }
 
   String toHex() {
@@ -401,10 +399,17 @@ class Transaction {
       });
     }
 
-    writeInt32(version);
-    writeUInt16(locktime);
+    // Start writeBuffer
+    writeInt16(version);
+    writeUInt32(locktime);
 
+    // if (_ALLOW_WITNESS && hasWitnesses()) {
+    //   writeUInt8(ADVANCED_TRANSACTION_MARKER);
+    //   writeUInt8(ADVANCED_TRANSACTION_FLAG);
+    // }
+    print("INS IS ${ins}");
     writeVarInt(ins.length);
+    print("I AM TX IN ");
     ins.forEach((txIn) {
       writeSlice(txIn.hash);
       writeUInt32(txIn.index);
