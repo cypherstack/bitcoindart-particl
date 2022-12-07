@@ -313,7 +313,9 @@ class TransactionBuilder {
         }
 
         print("INPUT SCRIPT IS ${result.input!}");
-        tx.setInputScript(i, result.input!);
+        // tx.setInputScript(i, result.input!);
+        print("BUT NOT USING SCRIPT LOL");
+        // tx.setWitness(i, [result.signature as Uint8List, result.pubkey as Uint8List]);
         tx.setWitness(i, result.witness);
       } else if (!allowIncomplete) {
         throw ArgumentError('Transaction is not complete');
